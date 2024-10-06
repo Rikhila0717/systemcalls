@@ -22,6 +22,7 @@ configurations {
 repositories {
 	mavenCentral()
 	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url 'https://mvnrepository.com/artifact' }
 }
 
 dependencies {
@@ -30,6 +31,7 @@ dependencies {
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'commons-io:commons-io:2.11.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.github.oshi:oshi-core:6.6.4'
 //	implementation 'com.okta.spring:okta-spring-boot-starter:3.0.7'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
