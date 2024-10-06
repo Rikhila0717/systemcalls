@@ -1,5 +1,6 @@
 package com.systemcalls.systemcalls.domain.response;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CpuUsageResponse {
-    private BigDecimal cpuPercentageUsage;
+public class MemoryUsageResponse {
+    private long memoryUsedInMb;
+    private BigDecimal memoryPercentageUsage;
 }
