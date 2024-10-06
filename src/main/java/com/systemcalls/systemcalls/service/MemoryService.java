@@ -28,9 +28,7 @@ public class MemoryService implements iMemoryService {
         double totalMemory = operatingSystemMXBean.getTotalMemorySize();
         double freeMemory = operatingSystemMXBean.getFreeMemorySize();
         double memoryUsed = totalMemory-freeMemory;
-        double memoryUsedInMb = memoryUsed/(1024*1024);
-        double totalMemoryInMb = totalMemory/(1024*1024);
-        double memoryPercentageUsage = (memoryUsedInMb/totalMemoryInMb)*100;
+        double memoryPercentageUsage = (memoryUsed/totalMemory)*100;
         BigDecimal formattedMemoryPercentageUsage = BigDecimal.valueOf(memoryPercentageUsage)
                 .setScale(2, RoundingMode.HALF_UP);
         return formattedMemoryPercentageUsage;
