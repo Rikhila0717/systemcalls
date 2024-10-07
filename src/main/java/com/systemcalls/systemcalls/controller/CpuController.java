@@ -1,8 +1,11 @@
 package com.systemcalls.systemcalls.controller;
 
+import com.systemcalls.systemcalls.domain.response.BandwidthUsageResponse;
 import com.systemcalls.systemcalls.domain.response.CpuUsageResponse;
+import com.systemcalls.systemcalls.domain.response.SuccessResponse;
 import com.systemcalls.systemcalls.service.CpuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,21 +15,26 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping("/systemcalls/cpu")
 public class CpuController {
-
     @Autowired
     CpuService cpuService;
 
     @GetMapping("/usage")
-    public ResponseEntity<CpuUsageResponse> getCpuUsage(){
+    public SuccessResponse getCpuUsage(){
         BigDecimal cpuPercentageUsage = cpuService.getCpuUsage();
         CpuUsageResponse cpuUsageResponse = buildCpuUsageResponse(cpuPercentageUsage);
-        return ResponseEntity.ok(cpuUsageResponse);
+        SuccessResponse successResponse = buildSuccessResponse(cpuUsageResponse);
+        return successResponse;
     }
 
     public CpuUsageResponse buildCpuUsageResponse(BigDecimal cpuPercentageUsage){
         CpuUsageResponse cpuUsageResponse = CpuUsageResponse.builder().build();
         cpuUsageResponse.setCpuPercentageUsage(cpuPercentageUsage);
         return cpuUsageResponse;
+    }
+
+    public SuccessResponse buildSuccessResponse(CpuUsageResponse cpuUsageResponse){
+        SuccessResponse successResponse = new SuccessResponse(HttpStatus.OK.value(),cpuUsageResponse);
+        return successResponse;
     }
 
 }

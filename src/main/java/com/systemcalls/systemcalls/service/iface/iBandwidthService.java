@@ -1,9 +1,12 @@
 package com.systemcalls.systemcalls.service.iface;
 
 
+import com.systemcalls.systemcalls.service.BandwidthService;
+
 import java.math.BigDecimal;
 
 public interface iBandwidthService {
-    public BigDecimal getReceivedBandwidth();
-    public BigDecimal getSentBandwidth();
+    public BigDecimal getDownloadBandwidth();
+    public BigDecimal getUploadBandwidth();
+
 }

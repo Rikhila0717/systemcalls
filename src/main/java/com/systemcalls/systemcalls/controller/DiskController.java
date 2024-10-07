@@ -1,9 +1,12 @@
 package com.systemcalls.systemcalls.controller;
 
 
+import com.systemcalls.systemcalls.domain.response.BandwidthUsageResponse;
 import com.systemcalls.systemcalls.domain.response.DiskSpaceUsageResponse;
+import com.systemcalls.systemcalls.domain.response.SuccessResponse;
 import com.systemcalls.systemcalls.service.DiskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +22,13 @@ public class DiskController {
     DiskService diskService;
 
     @GetMapping("/space/usage")
-    public ResponseEntity<DiskSpaceUsageResponse> getDiskSpaceUsage(){
+    public SuccessResponse getDiskSpaceUsage(){
         long diskSpaceUsedInMb = diskService.getDiskSpaceUsedInMb();
         BigDecimal diskSpacePercentageUsage = diskService.getDiskSpacePercentageUsed();
         DiskSpaceUsageResponse diskSpaceUsageResponse = buildDiskSpaceUsageResponse(
                 diskSpaceUsedInMb,diskSpacePercentageUsage);
-        return ResponseEntity.ok(diskSpaceUsageResponse);
+        SuccessResponse successResponse = buildSuccessResponse(diskSpaceUsageResponse);
+        return successResponse;
     }
 
     public DiskSpaceUsageResponse buildDiskSpaceUsageResponse(long diskSpaceUsedInMb,
@@ -33,6 +37,11 @@ public class DiskController {
         diskSpaceUsageResponse.setDiskSpaceUsedInMb(diskSpaceUsedInMb);
         diskSpaceUsageResponse.setDiskSpacePercentageUsage(diskSpacePercentageUsage);
         return diskSpaceUsageResponse;
+    }
+
+    public SuccessResponse buildSuccessResponse(DiskSpaceUsageResponse diskSpaceUsageResponse){
+        SuccessResponse successResponse = new SuccessResponse(HttpStatus.OK.value(),diskSpaceUsageResponse);
+        return successResponse;
     }
 }
 

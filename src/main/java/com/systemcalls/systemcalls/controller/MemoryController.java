@@ -1,8 +1,11 @@
 package com.systemcalls.systemcalls.controller;
 
+import com.systemcalls.systemcalls.domain.response.BandwidthUsageResponse;
 import com.systemcalls.systemcalls.domain.response.MemoryUsageResponse;
+import com.systemcalls.systemcalls.domain.response.SuccessResponse;
 import com.systemcalls.systemcalls.service.MemoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +21,12 @@ public class MemoryController {
     MemoryService memoryService;
 
     @GetMapping("/usage")
-    public ResponseEntity<MemoryUsageResponse> getMemoryUsage(){
+    public SuccessResponse getMemoryUsage(){
         long memoryUsedInMb = memoryService.getMemoryUsedInMb();
         BigDecimal memoryPercentageUsage = memoryService.getMemoryPercentageUsed();
         MemoryUsageResponse memoryUsageResponse = buildMemoryUsageResponse(memoryUsedInMb,memoryPercentageUsage);
-        return ResponseEntity.ok(memoryUsageResponse);
+        SuccessResponse successResponse = buildSuccessResponse(memoryUsageResponse);
+        return successResponse;
     }
 
     public MemoryUsageResponse buildMemoryUsageResponse(long memoryUsedInMb, BigDecimal memoryPercentageUsage){
@@ -32,4 +36,8 @@ public class MemoryController {
         return memoryUsageResponse;
     }
 
+    public SuccessResponse buildSuccessResponse(MemoryUsageResponse memoryUsageResponse){
+        SuccessResponse successResponse = new SuccessResponse(HttpStatus.OK.value(),memoryUsageResponse);
+        return successResponse;
+    }
 }
