@@ -1,5 +1,6 @@
 package com.systemcalls.systemcalls.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.systemcalls.systemcalls.domain.response.BandwidthUsageResponse;
 import com.systemcalls.systemcalls.domain.response.CpuUsageResponse;
 import com.systemcalls.systemcalls.domain.response.SuccessResponse;
@@ -19,7 +20,7 @@ public class CpuController {
     CpuService cpuService;
 
     @GetMapping("/usage")
-    public SuccessResponse getCpuUsage(){
+    public SuccessResponse getCpuUsage() throws JsonProcessingException {
         BigDecimal cpuPercentageUsage = cpuService.getCpuUsage();
         CpuUsageResponse cpuUsageResponse = buildCpuUsageResponse(cpuPercentageUsage);
         SuccessResponse successResponse = buildSuccessResponse(cpuUsageResponse);

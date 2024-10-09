@@ -6,8 +6,7 @@ import com.systemcalls.systemcalls.domain.response.ErrorResponse;
 import com.systemcalls.systemcalls.service.iface.iBandwidthService;
 
 
-import jakarta.annotation.PostConstruct;
-import org.apache.tomcat.util.bcel.Const;
+import com.systemcalls.systemcalls.util.ObjectUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
@@ -26,26 +25,16 @@ public class BandwidthService implements iBandwidthService {
     private HardwareAbstractionLayer hardwareAbstractionLayer;
     private double previousTime;
 
-    @PostConstruct
-    public void init(){
+
+    @Override
+    public BigDecimal getDownloadBandwidth() {
         try{
             logger.info("Getting system and hardware info...");
             SystemInfo systemInfo = new SystemInfo();
             hardwareAbstractionLayer = systemInfo.getHardware();
             this.previousTime = System.currentTimeMillis();
-        }catch(Exception e){
-            logger.error(Constants.PLATFORM_SYSTEM_ERROR,e);
-            throw new RuntimeException(String.valueOf(new ErrorResponse(
-                    HttpStatus.INTERNAL_SERVER_ERROR.value(), Constants.PLATFORM_SYSTEM_ERROR,
-                    e.getMessage())));
-        }
-    }
-
-    @Override
-    public BigDecimal getDownloadBandwidth() {
-        try{
             logger.info("Getting download bandwidth...");
-            double currentReceivedBytes=0;
+            double currentReceivedBytes=0.0;
             for (NetworkIF networkIF: hardwareAbstractionLayer.getNetworkIFs()){
                 currentReceivedBytes+=getReceivedBytes(networkIF);
             }
@@ -55,19 +44,34 @@ public class BandwidthService implements iBandwidthService {
             double downloadBandwidthInMbps = downloadBandwidth/1000000;
             previousTime=currentTime;
             return BigDecimal.valueOf(downloadBandwidthInMbps).setScale(2, RoundingMode.HALF_UP);
-        }catch(Exception e){
-            logger.error("Error occurred while getting download bandwidth",e);
-            throw new RuntimeException(String.valueOf(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    Constants.DOWNLOAD_BANDWIDTH_ERROR, e.getMessage())));
         }
+        catch(Exception e){
+            logger.error("Error occurred while getting download bandwidth",e);
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    Constants.DOWNLOAD_BANDWIDTH_ERROR, e.getMessage());
+            String errorMessage = ObjectUtils.serialize(errorResponse);
+            throw new RuntimeException(errorMessage);
+        }
+//        catch(RuntimeException e){
+//            logger.error(Constants.PLATFORM_SYSTEM_ERROR,e);
+//            ErrorResponse errorResponse = new ErrorResponse(
+//                    HttpStatus.INTERNAL_SERVER_ERROR.value(), Constants.PLATFORM_SYSTEM_ERROR,
+//                    e.getMessage());
+//            String errorMessage = ObjectUtils.serialize(errorResponse);
+//            throw new RuntimeException(errorMessage);
+//        }
 
     }
 
     @Override
     public BigDecimal getUploadBandwidth() {
         try{
+            logger.info("Getting system and hardware info...");
+            SystemInfo systemInfo = new SystemInfo();
+            hardwareAbstractionLayer = systemInfo.getHardware();
+            this.previousTime = System.currentTimeMillis();
             logger.info("Getting upload bandwidth...");
-            double currentSentBytes = 0;
+            double currentSentBytes = 0.0;
             for(NetworkIF networkIF: hardwareAbstractionLayer.getNetworkIFs()){
                 currentSentBytes+=getSentBytes(networkIF);
             }
@@ -77,31 +81,45 @@ public class BandwidthService implements iBandwidthService {
             double uploadBandwidthInMbps = uploadBandwidth/1000000;
             previousTime = currentTime;
             return BigDecimal.valueOf(uploadBandwidthInMbps).setScale(2,RoundingMode.HALF_UP);
-        }catch(Exception e){
+        }catch(RuntimeException e){
+            logger.error(Constants.PLATFORM_SYSTEM_ERROR,e);
+            ErrorResponse errorResponse = new ErrorResponse(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(), Constants.PLATFORM_SYSTEM_ERROR,
+                    e.getMessage());
+            String errorMessage = ObjectUtils.serialize(errorResponse);
+            throw new RuntimeException(errorMessage);
+        }
+        catch(Exception e){
             logger.error("Error occurred while getting upload bandwidth",e);
-            throw new RuntimeException(String.valueOf(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    Constants.UPLOAD_BANDWIDTH_ERROR, e.getMessage())));
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    Constants.UPLOAD_BANDWIDTH_ERROR, e.getMessage());
+            String errorMessage = ObjectUtils.serialize(errorResponse);
+            throw new RuntimeException(errorMessage);
         }
 
     }
 
-    public double getReceivedBytes(NetworkIF networkIF){
+    public long getReceivedBytes(NetworkIF networkIF){
         try{
             return networkIF.getBytesRecv();
         }catch(Exception e){
-            logger.error(Constants.RECEIVE_BYTES_ERROR,e);
-            throw new RuntimeException(String.valueOf(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    Constants.RECEIVE_BYTES_ERROR, e.getMessage())));
+            logger.error("Error occurred while getting received bytes",e);
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    Constants.RECEIVE_BYTES_ERROR, e.getMessage());
+            String errorMessage = ObjectUtils.serialize(errorResponse);
+            throw new RuntimeException(errorMessage);
         }
     }
 
-    public double getSentBytes(NetworkIF networkIF){
+    public long getSentBytes(NetworkIF networkIF){
         try{
             return networkIF.getBytesSent();
         }catch(Exception e){
             logger.error(Constants.SEND_BYTES_ERROR,e);
-            throw new RuntimeException(String.valueOf(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    Constants.SEND_BYTES_ERROR, e.getMessage())));
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    Constants.SEND_BYTES_ERROR, e.getMessage());
+            String errorMessage = ObjectUtils.serialize(errorResponse);
+            throw new RuntimeException(errorMessage);
         }
     }
 
