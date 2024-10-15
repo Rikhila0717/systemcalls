@@ -25,15 +25,15 @@ repositories {
 	maven { url 'https://mvnrepository.com/artifact' }
 }
 
+
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'com.duosecurity:duo-universal-sdk:1.2.0'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'commons-io:commons-io:2.11.0'
-//	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.github.oshi:oshi-core:6.6.4'
-//	implementation 'com.okta.spring:okta-spring-boot-starter:3.0.7'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'

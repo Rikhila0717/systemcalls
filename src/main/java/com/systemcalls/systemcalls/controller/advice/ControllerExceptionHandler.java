@@ -7,11 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.io.IOException;
-
 @RestControllerAdvice
 public class ControllerExceptionHandler {
-
     @ExceptionHandler(value= Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception e){
         ErrorResponse errorResponse = new ErrorResponse(
@@ -19,18 +16,4 @@ public class ControllerExceptionHandler {
         return ResponseEntity.internalServerError().body(errorResponse);
     }
 
-    @ExceptionHandler(value= IOException.class)
-    public ResponseEntity<ErrorResponse> handleIOException(IOException e){
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),Constants.INTERNAL_SERVER_ERROR,e.getMessage());
-        return ResponseEntity.internalServerError().body(errorResponse);
-    }
-
-    @ExceptionHandler(value = RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e){
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(), Constants.INTERNAL_SERVER_ERROR,e.getMessage());
-        return ResponseEntity.internalServerError().body(errorResponse);
-
-    }
 }

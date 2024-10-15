@@ -40,9 +40,9 @@ public class BandwidthService implements iBandwidthService {
             }
             double currentTime = System.currentTimeMillis();
             double timeIntervalInSeconds = (currentTime-previousTime)/1000;
+            previousTime = currentTime;
             double downloadBandwidth = currentReceivedBytes*8/timeIntervalInSeconds;
             double downloadBandwidthInMbps = downloadBandwidth/1000000;
-            previousTime=currentTime;
             return BigDecimal.valueOf(downloadBandwidthInMbps).setScale(2, RoundingMode.HALF_UP);
         }
         catch(Exception e){
@@ -52,15 +52,6 @@ public class BandwidthService implements iBandwidthService {
             String errorMessage = ObjectUtils.serialize(errorResponse);
             throw new RuntimeException(errorMessage);
         }
-//        catch(RuntimeException e){
-//            logger.error(Constants.PLATFORM_SYSTEM_ERROR,e);
-//            ErrorResponse errorResponse = new ErrorResponse(
-//                    HttpStatus.INTERNAL_SERVER_ERROR.value(), Constants.PLATFORM_SYSTEM_ERROR,
-//                    e.getMessage());
-//            String errorMessage = ObjectUtils.serialize(errorResponse);
-//            throw new RuntimeException(errorMessage);
-//        }
-
     }
 
     @Override
