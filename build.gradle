@@ -29,8 +29,10 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'com.duosecurity:duo-universal-sdk:1.2.0'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+//	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	implementation 'com.okta.spring:okta-spring-boot-starter:3.0.7'
 	implementation 'commons-io:commons-io:2.11.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.github.oshi:oshi-core:6.6.4'

@@ -1,5 +1,12 @@
 spring:
   application:
     name: systemcalls
-  main:
-    web-application-type: none
+
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          github:
+#            clientId: Ov23liA55tL12Zzloo0M
+#            clientSecret: ENC (0UXAsqiP5DB/2n4V9i4z6uGuwmg+G6pMy9kxt5w95OuzyGqyT+mooW0nnrBxShSrLOu/Q/M7wEk=)
+#
