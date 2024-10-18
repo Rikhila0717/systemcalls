@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/systemcalls")
+@RequestMapping("/")
 public class Login {
     @GetMapping("")
     public String returnApis(){
-        return "make api calls";
+        return " MAKE API CALLS TO GET SYSTEM METRICS";
     }
 }

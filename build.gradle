@@ -29,10 +29,8 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 //	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
-//	implementation 'com.okta.spring:okta-spring-boot-starter:3.0.7'
 	implementation 'commons-io:commons-io:2.11.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.github.oshi:oshi-core:6.6.4'
@@ -40,7 +38,6 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

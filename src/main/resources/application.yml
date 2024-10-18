@@ -1,5 +1,11 @@
 spring:
   application:
     name: systemcalls
-  main:
-    web-application-type: none
+
+  security:
+      oauth2:
+        client:
+          registration:
+            github:
+              clientId: $OAUTH2_CLIENT_ID
+              clientSecret: $OAUTH2_CLIENT_SECRET
