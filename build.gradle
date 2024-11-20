@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.2.11-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.1.6'
 	id 'jacoco'
+	id "org.sonarqube" version "5.1.0.4882"
 }
 
 group = 'com.systemcalls'
@@ -16,6 +17,14 @@ java {
 
 jacoco {
 	toolVersion = "0.8.9"
+}
+
+
+sonar {
+	properties {
+		property "sonar.projectKey", "systemcalls"
+		property "sonar.projectName", "systemcalls"
+	}
 }
 
 configurations {
