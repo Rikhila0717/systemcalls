@@ -21,12 +21,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE_TAG = ${{ github.sha.substr(0,7) }}
+          IMAGE_TAG = ${{ github.sha }}
           docker build -t rikhila07/systemcalls:$IMAGE_TAG .
 
       - name: Push Docker image
         run: |
-          IMAGE_TAG = ${{ github.sha::7 }}
+          IMAGE_TAG = ${{ github.sha }}
           docker push rikhila07/systemcalls:$IMAGE_TAG
 
 
