@@ -22,16 +22,17 @@ import static com.systemcalls.systemcalls.util.LoggerUtil.logger;
 @Service
 public class BandwidthService implements iBandwidthService {
 
-    private HardwareAbstractionLayer hardwareAbstractionLayer;
+    private final HardwareAbstractionLayer hardwareAbstractionLayer;
     private double previousTime;
 
+    public BandwidthService(SystemInfo systemInfo){
+        this.hardwareAbstractionLayer = systemInfo.getHardware();
+    }
 
     @Override
     public BigDecimal getDownloadBandwidth() {
         try{
             logger.info("Getting system and hardware info...");
-            SystemInfo systemInfo = new SystemInfo();
-            hardwareAbstractionLayer = systemInfo.getHardware();
             this.previousTime = System.currentTimeMillis();
             logger.info("Getting download bandwidth...");
             double currentReceivedBytes=0.0;
@@ -58,8 +59,6 @@ public class BandwidthService implements iBandwidthService {
     public BigDecimal getUploadBandwidth() {
         try{
             logger.info("Getting system and hardware info...");
-            SystemInfo systemInfo = new SystemInfo();
-            hardwareAbstractionLayer = systemInfo.getHardware();
             this.previousTime = System.currentTimeMillis();
             logger.info("Getting upload bandwidth...");
             double currentSentBytes = 0.0;
