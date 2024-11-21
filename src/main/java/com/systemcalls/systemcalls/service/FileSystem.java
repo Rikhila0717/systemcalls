@@ -1,9 +1,11 @@
 package com.systemcalls.systemcalls.service;
 
 import com.systemcalls.systemcalls.service.iface.iFileSystem;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 
+@Service
 public class FileSystem implements iFileSystem {
 
     private final File file;
