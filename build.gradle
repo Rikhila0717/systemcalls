@@ -2,6 +2,9 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.11-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id 'jacoco'
+	id "org.sonarqube" version "5.1.0.4882"
+
 }
 
 group = 'com.systemcalls'
@@ -12,6 +15,12 @@ java {
 		languageVersion = JavaLanguageVersion.of(17)
 	}
 }
+
+jacoco {
+	toolVersion = "0.8.9"
+}
+
+
 
 configurations {
 	compileOnly {
@@ -24,8 +33,6 @@ repositories {
 	maven { url 'https://repo.spring.io/snapshot' }
 	maven { url 'https://mvnrepository.com/artifact' }
 }
-
-
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -44,3 +51,30 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+test {
+	testLogging {
+		events "passed","failed","skipped"
+	}
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required=true
+		html.required=false
+	}
+}
+
+check.dependsOn jacocoTestReport
+
+sonar {
+	properties {
+		property "sonar.projectKey", "systemcalls"
+		property "sonar.projectName", "systemcalls"
+		property "sonar.host.url", "http://localhost:9000"
+
+	}
+}
+
