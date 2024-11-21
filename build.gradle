@@ -74,7 +74,6 @@ sonar {
 		property "sonar.projectKey", "systemcalls"
 		property "sonar.projectName", "systemcalls"
 		property "sonar.host.url", "http://localhost:9000"
-		property "sonar.token", "${SONAR_TOKEN}"
 
 	}
 }
